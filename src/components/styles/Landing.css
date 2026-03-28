@@ -369,14 +369,17 @@ h2.landing-info-h2 {
     box-sizing: border-box;
   }
   .landing-intro {
-    top: calc(40px + env(safe-area-inset-top));
+    top: calc(72px + env(safe-area-inset-top));
     left: 0;
     max-width: 62vw;
     text-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   }
   .landing-intro h2 {
-    font-size: 20px;
-    letter-spacing: 1.4px;
+    font-size: 18px;
+    letter-spacing: 1.1px;
+    font-weight: 400;
+    color: #d9c2ff;
+    margin-bottom: 6px;
   }
   .landing-intro h1 {
     font-size: clamp(42px, 10.5vw, 56px);
@@ -441,12 +444,12 @@ h2.landing-info-h2 {
     padding-bottom: calc(18px + env(safe-area-inset-bottom));
   }
   .landing-intro {
-    top: calc(36px + env(safe-area-inset-top));
-    max-width: 66vw;
+    top: calc(66px + env(safe-area-inset-top));
+    max-width: 68vw;
   }
   .landing-intro h2 {
-    font-size: 14px;
-    letter-spacing: 1.1px;
+    font-size: 16px;
+    letter-spacing: 0.9px;
   }
   .landing-intro h1 {
     font-size: clamp(32px, 11vw, 44px);

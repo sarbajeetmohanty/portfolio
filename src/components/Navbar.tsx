@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HoverLinks from "./HoverLinks";
 import "./styles/Navbar.css";
 
@@ -17,6 +17,8 @@ export let smoother: SmootherController = {
 };
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     smoother = {
       paused: () => {},
@@ -43,21 +45,39 @@ const Navbar = () => {
     links.forEach((elem) => {
       const element = elem as HTMLAnchorElement;
       const handler = (e: MouseEvent) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          const targetElem = e.currentTarget as HTMLAnchorElement;
-          const section = targetElem.getAttribute("data-href") || "";
-          smoother.scrollTo(section);
+        e.preventDefault();
+        const targetElem = e.currentTarget as HTMLAnchorElement;
+        const section = targetElem.getAttribute("data-href") || "";
+        smoother.scrollTo(section);
+        if (window.innerWidth < 900) {
+          setIsMobileMenuOpen(false);
         }
       };
       element.addEventListener("click", handler);
       listeners.push({ element, handler });
     });
 
+    const handleResize = () => {
+      if (window.innerWidth >= 900) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("keydown", handleEscape);
+
     return () => {
       listeners.forEach(({ element, handler }) => {
         element.removeEventListener("click", handler);
       });
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("keydown", handleEscape);
       smoother.destroy();
     };
   }, []);
@@ -76,7 +96,18 @@ const Navbar = () => {
         >
           WhatsApp: +91 8260540233
         </a>
-        <ul>
+        <button
+          type="button"
+          className={`mobile-menu-btn ${isMobileMenuOpen ? "is-open" : ""}`}
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul className={isMobileMenuOpen ? "menu-open" : ""}>
           <li>
             <a data-href="#about" href="#about">
               <HoverLinks text="ABOUT" />
