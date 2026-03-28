@@ -4,6 +4,8 @@
   margin: auto;
   position: relative;
   height: var(--vh);
+  min-height: var(--vh);
+  overflow: clip;
 }
 .landing-container {
   width: var(--cWidth);
@@ -354,5 +356,145 @@ h2.landing-info-h2 {
   }
   h2.landing-info-h2 {
     font-size: 75px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .landing-section {
+    height: max(100svh, var(--vh));
+    min-height: calc(max(100svh, var(--vh)) + 40px);
+  }
+  .landing-container {
+    padding-top: calc(58px + env(safe-area-inset-top));
+    padding-bottom: calc(26px + env(safe-area-inset-bottom));
+    box-sizing: border-box;
+  }
+  .landing-intro {
+    top: calc(40px + env(safe-area-inset-top));
+    left: 0;
+    max-width: 62vw;
+    text-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  .landing-intro h2 {
+    font-size: 20px;
+    letter-spacing: 1.4px;
+  }
+  .landing-intro h1 {
+    font-size: clamp(42px, 10.5vw, 56px);
+    line-height: 0.92;
+  }
+  .character-model {
+    height: min(80vh, 700px);
+    bottom: 52px;
+  }
+  .landing-info {
+    display: block;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: calc(34px + env(safe-area-inset-bottom));
+    width: min(84vw, 320px);
+    text-align: center;
+    pointer-events: none;
+  }
+  .landing-info h3 {
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    opacity: 0.9;
+  }
+  .landing-info h2 {
+    margin: 0;
+    margin-top: -4px;
+    justify-content: center;
+    font-size: 28px;
+    line-height: 30px;
+    letter-spacing: 1.4px;
+    width: 100%;
+  }
+  h2.landing-info-h2 {
+    width: 100%;
+    margin-left: 0;
+    font-size: 30px;
+    line-height: 1.05;
+  }
+  .landing-h2-1 {
+    position: relative;
+    display: block;
+  }
+  .landing-h2-2,
+  .landing-h2-info-1 {
+    left: 0;
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+  .landing-info-h2::after {
+    display: none;
+  }
+}
+@media screen and (max-width: 520px) {
+  .landing-section {
+    min-height: calc(max(100svh, var(--vh)) + 30px);
+  }
+  .landing-container {
+    padding-top: calc(52px + env(safe-area-inset-top));
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+  .landing-intro {
+    top: calc(36px + env(safe-area-inset-top));
+    max-width: 66vw;
+  }
+  .landing-intro h2 {
+    font-size: 14px;
+    letter-spacing: 1.1px;
+  }
+  .landing-intro h1 {
+    font-size: clamp(32px, 11vw, 44px);
+    line-height: 0.93;
+    letter-spacing: 1.4px;
+  }
+  .character-model {
+    height: min(76vh, 580px);
+    bottom: 46px;
+  }
+  .landing-info {
+    width: min(86vw, 280px);
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+  .landing-info h3 {
+    font-size: 11px;
+  }
+  .landing-info h2 {
+    font-size: 24px;
+    line-height: 26px;
+  }
+  h2.landing-info-h2 {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 390px) {
+  .landing-section {
+    min-height: calc(max(100svh, var(--vh)) + 24px);
+  }
+  .landing-intro {
+    max-width: 68vw;
+  }
+  .landing-intro h1 {
+    font-size: clamp(30px, 10.8vw, 40px);
+  }
+  .character-model {
+    height: min(74vh, 520px);
+    bottom: 42px;
+  }
+  .landing-info {
+    width: min(88vw, 250px);
+    bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+  .landing-info h2 {
+    font-size: 21px;
+    line-height: 23px;
+  }
+  h2.landing-info-h2 {
+    font-size: 22px;
   }
 }

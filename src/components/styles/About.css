@@ -69,3 +69,39 @@
     line-height: 2.7rem;
   }
 }
+@media only screen and (max-width: 900px) {
+  .about-section {
+    padding-top: 36px;
+  }
+  .about-me {
+    width: 100%;
+    max-width: calc(100% - 24px);
+    padding: 10px 0 0;
+  }
+  .about-me h3 {
+    font-size: 18px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+  }
+  .about-me p {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+@media only screen and (max-width: 520px) {
+  .about-section {
+    width: calc(100% - 24px);
+    padding-top: 30px;
+  }
+  .about-me h3 {
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+  .about-me p {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+}

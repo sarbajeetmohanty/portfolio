@@ -1,6 +1,7 @@
 .contact-section {
+  position: relative;
   margin: auto;
-  padding-bottom: 100px;
+  padding-bottom: 140px;
   margin-top: 100px;
 }
 .contact-section h3 {
@@ -46,6 +47,21 @@ a.contact-social {
   gap: 10px;
   opacity: 0.5;
 }
+.contact-footer-absolute {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 1px;
+  opacity: 0.68;
+  text-transform: uppercase;
+}
+.contact-footer-absolute span {
+  color: var(--accentColor);
+}
 @media only screen and (max-width: 1600px) {
   .contact-section h3 {
     font-size: 50px;
@@ -84,9 +100,15 @@ a.contact-social {
   }
   .contact-section {
     margin-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 118px;
   }
   .contact-container {
     width: calc(100% - 25px);
+  }
+  .contact-footer-absolute {
+    bottom: 24px;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    width: calc(100% - 18px);
   }
 }

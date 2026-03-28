@@ -1,4 +1,4 @@
-import { lazy, PropsWithChildren, Suspense, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
@@ -10,24 +10,46 @@ import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
 
-const TechStack = lazy(() => import("./TechStack"));
-
 const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
 
   useEffect(() => {
+    let resizeRaf = 0;
+
+    const updateViewportHeight = () => {
+      document.documentElement.style.setProperty("--vh", `${window.innerHeight}px`);
+    };
+
     const resizeHandler = () => {
-      setSplitText();
-      setIsDesktopView(window.innerWidth > 1024);
+      if (resizeRaf) {
+        cancelAnimationFrame(resizeRaf);
+      }
+      resizeRaf = requestAnimationFrame(() => {
+        updateViewportHeight();
+        setSplitText();
+        const isDesktop = window.innerWidth > 1024;
+        setIsDesktopView((prev) => (prev === isDesktop ? prev : isDesktop));
+        resizeRaf = 0;
+      });
     };
-    resizeHandler();
+
+    updateViewportHeight();
+    setSplitText();
+    const isDesktop = window.innerWidth > 1024;
+    setIsDesktopView((prev) => (prev === isDesktop ? prev : isDesktop));
     window.addEventListener("resize", resizeHandler);
+    window.addEventListener("orientationchange", resizeHandler);
+
     return () => {
+      if (resizeRaf) {
+        cancelAnimationFrame(resizeRaf);
+      }
       window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("orientationchange", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
 
   return (
     <div className="container-main">
@@ -43,11 +65,6 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <WhatIDo />
             <Career />
             <Work />
-            {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
-                <TechStack />
-              </Suspense>
-            )}
             <Contact />
           </div>
         </div>

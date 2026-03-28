@@ -1,56 +1,80 @@
 import { useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
-import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import "./styles/Navbar.css";
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-export let smoother: ScrollSmoother;
+type SmootherController = {
+  paused: (state: boolean) => void;
+  scrollTo: (target: string) => void;
+  scrollTop: (top: number) => void;
+  destroy: () => void;
+};
+
+export let smoother: SmootherController = {
+  paused: () => {},
+  scrollTo: () => {},
+  scrollTop: () => {},
+  destroy: () => {},
+};
 
 const Navbar = () => {
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
-
+    smoother = {
+      paused: () => {},
+      scrollTop: (top: number) => {
+        if (Number.isFinite(top)) {
+          window.scrollTo({ top, behavior: "auto" });
+        }
+      },
+      scrollTo: (target: string) => {
+        if (!target) return;
+        const section = document.querySelector(target);
+        if (!section) return;
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      },
+      destroy: () => {},
+    };
     smoother.scrollTop(0);
-    smoother.paused(true);
 
-    let links = document.querySelectorAll(".header ul a");
+    const listeners: Array<{
+      element: HTMLAnchorElement;
+      handler: (e: MouseEvent) => void;
+    }> = [];
+    const links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
+      const element = elem as HTMLAnchorElement;
+      const handler = (e: MouseEvent) => {
         if (window.innerWidth > 1024) {
           e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
+          const targetElem = e.currentTarget as HTMLAnchorElement;
+          const section = targetElem.getAttribute("data-href") || "";
+          smoother.scrollTo(section);
         }
+      };
+      element.addEventListener("click", handler);
+      listeners.push({ element, handler });
+    });
+
+    return () => {
+      listeners.forEach(({ element, handler }) => {
+        element.removeEventListener("click", handler);
       });
-    });
-    window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
-    });
+      smoother.destroy();
+    };
   }, []);
   return (
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          Logo
+          SHARIM
         </a>
         <a
-          href="mailto:example@mail.com"
+          href="https://api.whatsapp.com/send/?phone=918260540233"
           className="navbar-connect"
           data-cursor="disable"
+          target="_blank"
+          rel="noreferrer"
         >
-          example@mail.com
+          WhatsApp: +91 8260540233
         </a>
         <ul>
           <li>
@@ -60,7 +84,7 @@ const Navbar = () => {
           </li>
           <li>
             <a data-href="#work" href="#work">
-              <HoverLinks text="WORK" />
+              <HoverLinks text="REELS" />
             </a>
           </li>
           <li>

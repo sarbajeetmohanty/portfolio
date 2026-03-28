@@ -3,11 +3,17 @@ import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
 
+type CharacterOptions = {
+  enableShadows?: boolean;
+};
+
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene,
-  camera: THREE.PerspectiveCamera
+  camera: THREE.PerspectiveCamera,
+  options: CharacterOptions = {}
 ) => {
+  const enableShadows = options.enableShadows !== false;
   const loader = new GLTFLoader();
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("/draco/");
@@ -31,8 +37,8 @@ const setCharacter = (
             character.traverse((child: any) => {
               if (child.isMesh) {
                 const mesh = child as THREE.Mesh;
-                child.castShadow = true;
-                child.receiveShadow = true;
+                child.castShadow = enableShadows;
+                child.receiveShadow = enableShadows;
                 mesh.frustumCulled = true;
               }
             });

@@ -8,19 +8,21 @@ const WhatIDo = () => {
     containerRef.current[index] = el;
   };
   useEffect(() => {
+    const containers = containerRef.current.filter(
+      (container): container is HTMLDivElement => container instanceof HTMLDivElement
+    );
+    const handlerMap = new Map<HTMLDivElement, () => void>();
     if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
+      containers.forEach((container) => {
+        container.classList.remove("what-noTouch");
+        const clickHandler = () => handleClick(container);
+        handlerMap.set(container, clickHandler);
+        container.addEventListener("click", clickHandler);
       });
     }
     return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
+      handlerMap.forEach((handler, container) => {
+        container.removeEventListener("click", handler);
       });
     };
   }, []);
@@ -87,24 +89,24 @@ const WhatIDo = () => {
             <div className="what-corner"></div>
 
             <div className="what-content-in">
-              <h3>DEVELOP</h3>
-              <h4>Description</h4>
+              <h3>EDIT</h3>
+              <h4>Short-Form Video Editing</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae.
+                I edit reels and short-form videos with tight pacing, strong
+                hooks, clean cuts, and polished transitions to boost watch time
+                and engagement.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">JavaScript</div>
-                <div className="what-tags">TypeScript</div>
-                <div className="what-tags">Three.js</div>
-                <div className="what-tags">React</div>
-                <div className="what-tags">Css</div>
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Next.js</div>
-                <div className="what-tags">Express.js</div>
-                <div className="what-tags">PHP</div>
-                <div className="what-tags">MySql</div>
+                <div className="what-tags">Adobe Premiere Pro</div>
+                <div className="what-tags">After Effects</div>
+                <div className="what-tags">DaVinci Resolve</div>
+                <div className="what-tags">CapCut</div>
+                <div className="what-tags">Color Grading</div>
+                <div className="what-tags">Sound Design</div>
+                <div className="what-tags">Subtitles</div>
+                <div className="what-tags">Speed Ramping</div>
+                <div className="what-tags">Transitions</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -128,22 +130,23 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>DESIGN</h3>
-              <h4>Description</h4>
+              <h3>OPTIMIZE</h3>
+              <h4>Content Packaging</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae
+                I optimize videos for platform performance with cover ideas,
+                pacing variations, and versions tailored for brand pages and
+                creator accounts.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Blender</div>
-                <div className="what-tags">Zbrush</div>
-                <div className="what-tags">UI Design</div>
-                <div className="what-tags">Motion</div>
-                <div className="what-tags">Rigging</div>
-                <div className="what-tags">3D Animation</div>
-                <div className="what-tags">Character Design</div>
-                <div className="what-tags">Modelling</div>
+                <div className="what-tags">Instagram Reels</div>
+                <div className="what-tags">YouTube Shorts</div>
+                <div className="what-tags">Hook Strategy</div>
+                <div className="what-tags">Story Flow</div>
+                <div className="what-tags">Thumbnail Direction</div>
+                <div className="what-tags">Brand Style</div>
+                <div className="what-tags">Delivery Formats</div>
+                <div className="what-tags">Content Repurposing</div>
               </div>
               <div className="what-arrow"></div>
             </div>

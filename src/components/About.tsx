@@ -6,9 +6,10 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis
-          dolores numquam iusto Ratione earum ducimus autem id iure pariatur
-          dolorum quae maiores.
+          I'm Sharim, a video editor focused on high-retention reels, ad
+          creatives, and social-first storytelling. I shape raw footage into
+          clean, fast, and engaging edits built for Instagram, YouTube Shorts,
+          and brand campaigns.
         </p>
       </div>
     </div>
