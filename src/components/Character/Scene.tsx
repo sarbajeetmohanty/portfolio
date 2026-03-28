@@ -14,8 +14,8 @@ import setAnimations from "./utils/animationUtils";
 import { createProgressController } from "../utils/loadingProgress";
 
 const MOBILE_BREAKPOINT = 900;
-const MOBILE_MAX_DPR = 0.9;
-const DESKTOP_MAX_DPR = 1.6;
+const MOBILE_MAX_DPR = 1.35;
+const DESKTOP_MAX_DPR = 1.8;
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
@@ -35,14 +35,14 @@ const Scene = () => {
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: !isMobileView,
-      powerPreference: isMobileView ? "low-power" : "high-performance",
+      antialias: true,
+      powerPreference: "high-performance",
     });
     renderer.setSize(container.width, container.height);
     renderer.setPixelRatio(
       Math.min(window.devicePixelRatio || 1, isMobileView ? MOBILE_MAX_DPR : DESKTOP_MAX_DPR)
     );
-    renderer.shadowMap.enabled = !isMobileView;
+    renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     host.appendChild(renderer.domElement);
@@ -62,10 +62,10 @@ const Scene = () => {
     let landingVisible = true;
 
     const clock = new THREE.Clock();
-    const light = setLighting(scene, { enableShadows: !isMobileView });
+    const light = setLighting(scene, { enableShadows: true });
     const progress = createProgressController((value) => setLoading(value));
     const { loadCharacter } = setCharacter(renderer, scene, camera, {
-      enableShadows: !isMobileView,
+      enableShadows: true,
     });
 
     loadCharacter().then((gltf) => {
@@ -97,7 +97,7 @@ const Scene = () => {
       if (!character) return;
       handleResize(renderer, camera, canvasDiv, character);
       isMobileView = window.innerWidth <= MOBILE_BREAKPOINT;
-      renderer.shadowMap.enabled = !isMobileView;
+      renderer.shadowMap.enabled = true;
       const maxDpr = isMobileView ? MOBILE_MAX_DPR : DESKTOP_MAX_DPR;
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     };
